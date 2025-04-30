@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Послуги лабораторії</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Перелік послуг лабораторії</h2>
+
+<form th:action="@{/services/view}" method="get" style="margin-bottom: 20px;">
+  <input type="text" name="keyword" placeholder="Пошук послуги..."
+         th:value="${keyword}" />
+  <button type="submit">Шукати</button>
+  <a th:href="@{/services/view}">
+    <button type="button">Скинути</button>
+  </a>
+</form>
+
+<table border="1" cellpadding="8">
+  <thead>
+  <tr>
+    <th>Назва послуги</th>
+    <th>Термін виконання (год)</th>
+    <th>Ціна (грн)</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="analysis : ${analysis}">
+    <td th:text="${analysis.name}"></td>
+    <td th:text="${analysis.executionTime}"></td>
+    <td th:text="${#numbers.formatDecimal(analysis.price,0,2)}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/">На головну</a>
+</body>
+</html>

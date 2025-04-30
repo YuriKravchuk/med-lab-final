@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Записи пацієнтів</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Список записів</h2>
+
+<table border="1">
+  <tr>
+    <th>Ім’я</th>
+    <th>Прізвище</th>
+    <th>Телефон</th>
+    <th>Email</th>
+    <th>Дата</th>
+    <th>Час</th>
+    <th>Послуги</th>
+    <th>Сума (зі знижкою)</th>
+    <th>Дії</th>
+  </tr>
+  <tr th:each="appt : ${appointmentPage.content}">
+    <td th:text="${appt.firstName}"></td>
+    <td th:text="${appt.lastName}"></td>
+    <td th:text="${appt.phone}"></td>
+    <td th:text="${appt.email}"></td>
+      <td th:text="${appt.date}"></td>
+    <td th:text="${appt.time}"></td>
+    <td>
+      <ul>
+        <li th:each="s : ${appt.services}" th:text="${s.name}"></li>
+      </ul>
+    </td>
+    <td th:text="${appt.priceWithDiscount} + ' грн'"></td>
+    <td>
+      <a th:href="@{/appointments/delete/{id}(id=${appt.id})}"
+         onclick="return confirm('Ви впевнені, що хочете видалити запис?');">Видалити</a>
+    </td>
+  </tr>
+</table>
+
+<br/>
+<div>
+  <span th:text="'Сторінка ' + ${appointmentPage.number + 1} + ' з ' + ${appointmentPage.totalPages}"></span>
+  <br/>
+  <div>
+    <a th:if="${appointmentPage.hasPrevious()}"
+       th:href="@{/appointments(page=${appointmentPage.number - 1}, size=${appointmentPage.size})}">⟵ Попередня</a>
+    |
+    <a th:if="${appointmentPage.hasNext()}"
+       th:href="@{/appointments(page=${appointmentPage.number + 1}, size=${appointmentPage.size})}">Наступна ⟶</a>
+  </div>
+</div>
+
+<br/>
+<a href="/">← Назад на головну</a>
+</body>
+</html>

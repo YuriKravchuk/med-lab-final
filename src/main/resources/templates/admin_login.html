@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Вхід в адмін-панель</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Вхід в адмін-панель</h2>
+
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<form th:action="@{/admin/login}" method="post">
+  <label>Пароль:</label>
+  <input type="password" name="password" required />
+  <br/>
+  <button type="submit">Увійти</button>
+</form>
+
+<a href="/">На головну</a>
+</body>
+</html>

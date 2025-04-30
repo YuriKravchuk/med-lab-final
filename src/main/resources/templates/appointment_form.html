@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Запис на аналізи</title>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Форма запису на аналізи</h2>
+<div th:if="${success}">
+  <p style="color:green" th:text="${success}"></p>
+</div>
+<!--<form th:action="@{/appointments/form}" th:object="${appointment}" method="post">-->
+<!--  Прізвище: <input type="text" th:field="*{lastName}" /><br/>-->
+<!--  Ім'я: <input type="text" th:field="*{firstName}" /><br/>-->
+<!--  Телефон: <input type="text" th:field="*{phone}" /><br/>-->
+<!--  Email: <input type="email" th:field="*{email}" /><br/>-->
+
+<!--  Послуги:<br/>-->
+<!--&lt;!&ndash;  <div th:each="service : ${services}">&ndash;&gt;-->
+<!--&lt;!&ndash;    <input type="checkbox" name="selectedServices" th:value="${service.id}" />&ndash;&gt;-->
+<!--&lt;!&ndash;    <span th:text="${service.name} + ' - ' + ${service.price} + ' грн'"></span><br/>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+
+<!--  <label for="services">Оберіть послуги зі знижкою 10%:</label><br>-->
+<!--  <select name="selectedServices" id="services" multiple="multiple">-->
+<!--    <option th:each="service : ${services}"-->
+<!--            th:value="${service.id}"-->
+<!--            th:text="${service.name + ' - ' + (service.price*0.9) + ' грн'}">-->
+<!--    </option>-->
+<!--  </select>-->
+
+
+<!--  Дата візиту: <input type="date" th:field="*{date}" id="date" /><br/>-->
+<!--  Час візиту:-->
+<!--  <select th:field="*{time}" id="time">-->
+<!--    <option value="">Оберіть час</option>-->
+<!--  </select><br/>-->
+
+<!--  <button type="submit">Записатись</button>-->
+<!--</form>-->
+
+<form th:action="@{/appointments/form}" th:object="${appointment}" method="post">
+  Прізвище: <input type="text" th:field="*{lastName}" />
+  <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div><br/>
+
+  Ім'я: <input type="text" th:field="*{firstName}" />
+  <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div><br/>
+
+  Телефон: <input type="text" th:field="*{phone}" />
+  <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div><br/>
+
+  Email: <input type="email" th:field="*{email}" />
+  <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div><br/>
+
+  <label for="services">Оберіть послуги зі знижкою 10%:</label><br>
+  <select th:field="*{services}" id="services" multiple="multiple">
+    <option th:each="service : ${services}"
+            th:value="${service.id}"
+            th:text="${service.name + ' - ' + (#numbers.formatDecimal(service.price*0.9, 0, 2)) + ' грн'}">
+    </option>
+  </select>
+  <div class="error" th:if="${serviceError}" th:text="${serviceError}"></div><br/>
+
+  Дата візиту: <input type="date" th:field="*{date}" id="date" />
+  <div class="error" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></div><br/>
+
+  Час візиту:
+  <select th:field="*{time}" id="time">
+    <option value="">Оберіть час</option>
+  </select>
+  <div class="error" th:if="${#fields.hasErrors('time')}" th:errors="*{time}"></div><br/>
+
+  <button type="submit">Записатись</button>
+</form>
+
+
+<a href="/">На головну</a>
+
+<script>
+  document.getElementById("date").addEventListener("change", function () {
+    fetch('/appointments/taken-times?date=' + this.value)
+            .then(res => res.json())
+            .then(data => {
+              const timeSelect = document.getElementById("time");
+              timeSelect.innerHTML = '<option value="">Оберіть час</option>'; // очищення
+
+              const all = ["08:00", "09:00", "10:00", "11:00", "12:00"];
+              const taken = data.map(t => t.substring(0, 5)); // обрізаємо секунди, якщо приходять
+              const free = all.filter(t => !taken.includes(t));
+
+              free.forEach(time => {
+                const option = document.createElement("option");
+                option.value = time;
+                option.textContent = time;
+                timeSelect.appendChild(option);
+              });
+            });
+  });
+</script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#services').select2({
+      placeholder: "Оберіть послуги",
+      width: '100%'  // або 100% — як зручно
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Додати послугу</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Додати послугу</h2>
+<form th:action="@{/services/add}" th:object="${medicalAnalysis}" method="post">
+  <label>Назва:</label>
+  <input type="text" th:field="*{name}" />
+  <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
+
+  <label>Термін виконання:</label>
+  <input type="number" step="1" th:field="*{executionTime}"/>
+  <div th:if="${#fields.hasErrors('executionTime')}" th:errors="*{executionTime}" class="error"></div>
+
+  <label>Ціна:</label>
+  <input type="number" step="0.01" th:field="*{price}" />
+  <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error"></div>
+
+  <button type="submit">Додати послугу</button>
+</form>
+<a href="/services">Повернутись</a>
+</body>
+</html>

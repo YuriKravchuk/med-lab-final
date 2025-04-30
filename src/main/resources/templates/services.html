@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Послуги</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h2>Список послуг</h2>
+
+<form th:action="@{/services}" method="get">
+  <input type="text" name="keyword" placeholder="Пошук послуги...">
+  <button type="submit">Шукати</button>
+  <a th:href="@{/services}">
+    <button type="button">Скинути</button>
+  </a>
+</form>
+
+<table border="1">
+  <tr><th>Назва</th><th>Ціна</th><th>Термін виконання (год)</th><th>Дії</th></tr>
+  <tr th:each="service : ${services}">
+    <td th:text="${service.name}"></td>
+    <td th:text="${#numbers.formatDecimal(service.price, 0, 2)} + ' грн'"></td>
+    <td th:text="${service.executionTime}"></td>
+    <td>
+      <a th:href="@{/services/edit/{id}(id=${service.id})}">Редагувати</a> |
+      <a th:href="@{/services/delete/{id}(id=${service.id})}"
+         onclick="return confirm('Ви дійсно хочете видалити цю послугу?');">
+        Видалити
+      </a>
+    </td>
+  </tr>
+</table>
+
+<br/>
+<a href="/services/add">
+  <button>Додати нову послугу</button>
+</a>
+
+<br/><br/>
+<a href="/">← Повернутись на головну</a>
+</body>
+</html>

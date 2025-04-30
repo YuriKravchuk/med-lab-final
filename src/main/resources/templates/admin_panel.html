@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Адмін-панель</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+
+<h1>Адмін-панель</h1>
+
+<ul>
+    <li><a th:href="@{/services}">Переглянути послуги</a></li>
+    <li><a th:href="@{/appointments}">Переглянути записи</a></li>
+</ul>
+
+
+<div th:if="${success}">
+    <p style="color:green" th:text="${success}"></p>
+</div>
+
+<h3>Змінити пароль</h3>
+<form action="/admin/change-password" method="post">
+    Поточний пароль: <input type="password" name="currentPassword" required/><br/>
+    Новий пароль: <input type="password" name="newPassword" required/><br/>
+    Підтвердження нового пароля: <input type="password" name="confirmPassword" required/><br/>
+    <button type="submit">Змінити пароль</button>
+</form>
+
+<a href="/">На головну</a>
+
+</body>
+</html>
