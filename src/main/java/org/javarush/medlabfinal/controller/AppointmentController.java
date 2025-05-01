@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequestMapping("/appointments")
@@ -41,21 +40,8 @@ public class AppointmentController {
     @PostMapping("/form")
     public String saveAppointment(@ModelAttribute @Valid Appointment appointment,
                                   BindingResult bindingResult,
-//                                  @RequestParam(required = false) List<Long> selectedServices,
                                   Model model,
                                   RedirectAttributes redirectAttributes) {
-
-//        if (selectedServices != null) {
-//            List<MedicalAnalysis> selected = selectedServices.stream()
-//                    .map(id -> medicalAnalysisService.findById(id).orElse(null))
-//                    .filter(Objects::nonNull)
-//                    .toList();
-//            appointment.setServices(selected);
-//
-//            double total = selected.stream().mapToDouble(MedicalAnalysis::getPrice).sum();
-//            double discounted = total * 0.9;
-//            appointment.setPriceWithDiscount(discounted);
-//        }
 
 
         if (bindingResult.hasErrors() || appointment.getServices() == null || appointment.getServices().isEmpty()) {

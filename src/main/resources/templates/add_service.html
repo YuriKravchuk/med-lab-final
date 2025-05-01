@@ -12,7 +12,7 @@
   <input type="text" th:field="*{name}" />
   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
 
-  <label>Термін виконання:</label>
+  <label>Термін виконання (год):</label>
   <input type="number" step="1" th:field="*{executionTime}"/>
   <div th:if="${#fields.hasErrors('executionTime')}" th:errors="*{executionTime}" class="error"></div>
 

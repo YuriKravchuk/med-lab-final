@@ -32,7 +32,8 @@
         <li th:each="s : ${appt.services}" th:text="${s.name}"></li>
       </ul>
     </td>
-    <td th:text="${appt.priceWithDiscount} + ' грн'"></td>
+    <td th:text="${#numbers.formatDecimal(appt.priceWithDiscount, 0, 2)} + ' грн'"></td>
+
     <td>
       <a th:href="@{/appointments/delete/{id}(id=${appt.id})}"
          onclick="return confirm('Ви впевнені, що хочете видалити запис?');">Видалити</a>

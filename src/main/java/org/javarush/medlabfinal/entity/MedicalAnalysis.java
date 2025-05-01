@@ -27,6 +27,12 @@ public class MedicalAnalysis {
     @Column(scale = 2)
     private Double price;
 
+    public MedicalAnalysis(String name, Double price, Integer executionTime) {
+        this.name = name;
+        this.price = price;
+        this.executionTime = executionTime;
+    }
+
     @NotNull(message = "Термін виконання обов'язковий")
     @Min(value = 1, message = "Термін виконання повинен бути більшим за 0")
     private Integer executionTime;

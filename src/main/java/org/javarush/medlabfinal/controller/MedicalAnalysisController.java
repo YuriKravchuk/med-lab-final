@@ -18,12 +18,6 @@ public class MedicalAnalysisController {
     @Autowired
     private MedicalAnalysisService service;
 
-//    @GetMapping
-//    public String showAllServices(Model model) {
-//        model.addAttribute("services", service.findAll());
-//        return "services";
-//    }
-
     @GetMapping
     public String showAllServices(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
         List<MedicalAnalysis> services;
